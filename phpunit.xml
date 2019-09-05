@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    bootstrap="tests/config.php"
+    colors="true"
+    verbose="true"
+>
+    <testsuites>
+        <testsuite name="Ciebit Bidding Tests">
+            <directory>./tests/</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
