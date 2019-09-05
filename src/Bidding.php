@@ -12,7 +12,7 @@ class Bidding
     /** @var string */
     private $committeeId;
 
-    /** @var double */
+    /** @var float */
     private $estimatedBudgetAmount;
 
     /** @var array */
@@ -24,7 +24,7 @@ class Bidding
     /** @var Modality */
     private $modality;
 
-    /** @var DateTime | null */
+    /** @var DateTime */
     private $noticePublicationDate;
 
     /** @var string */
@@ -33,10 +33,10 @@ class Bidding
     /** @var string */
     private $objectDescription;
 
-    /** @var DateTime | null */
+    /** @var DateTime */
     private $openingDateTime;
 
-    /** @var Place | null */
+    /** @var Place */
     private $openingPlace;
 
     /** @var array */
@@ -63,7 +63,7 @@ class Bidding
     /** @var Type */
     private $type;
 
-    /** @var double */
+    /** @var float */
     private $upperLimitValue;
 
     /** @var int */
@@ -75,10 +75,13 @@ class Bidding
         Type $type,
         string $number,
         string $committeeId,
-        duuble $estimatedBudgetAmount,
-        double $upperLimitValue,
+        float $estimatedBudgetAmount,
+        float $upperLimitValue,
         string $objectDescription,
         array $orgainsId,
+        DateTime $openingDateTime,
+        Place $openingPlace,
+        DateTime $noticePublicationDate,
         string $personOrderedId,
         string $responsibleInformationId,
         string $responsibleLegalAdviceId,
@@ -92,8 +95,11 @@ class Bidding
         $this->filesId = [];
         $this->id = $id;
         $this->modality = $modality;
+        $this->noticePublicationDate = $noticePublicationDate;
         $this->number = $number;
         $this->objectDescription = $objectDescription;
+        $this->openingDateTime = $openingDateTime;
+        $this->openingPlace = $openingPlace;
         $this->orgainsId = $orgainsId;
         $this->personOrderedId = $personOrderedId;
         $this->responsibleInformationId = $responsibleInformationId;
@@ -117,7 +123,7 @@ class Bidding
         return $this->committeeId;
     }
 
-    public function getEstimatedBudgetAmount(): double
+    public function getEstimatedBudgetAmount(): float
     {
         return $this->estimatedBudgetAmount;
     }
@@ -137,7 +143,7 @@ class Bidding
         return $this->modality;
     }
 
-    public function getNoticePublicationDate(): ?DateTime
+    public function getNoticePublicationDate(): DateTime
     {
         return $this->noticePublicationDate;
     }
@@ -152,12 +158,12 @@ class Bidding
         return $this->objectDescription;
     }
 
-    public function getOpeningDateTime(): ?DateTime
+    public function getOpeningDateTime(): DateTime
     {
         return $this->openingDateTime;
     }
 
-    public function getOpeningPlace(): ?Place
+    public function getOpeningPlace(): Place
     {
         return $this->openingPlace;
     }
@@ -202,7 +208,7 @@ class Bidding
         return $this->type;
     }
 
-    public function getUpperLimitValue(): double
+    public function getUpperLimitValue(): float
     {
         return $this->upperLimitValue;
     }
