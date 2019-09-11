@@ -27,7 +27,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Ciebit\\Bidding\\Test\\": "tests/classes"
+            "Ciebit\\Bidding\\Tests\\": "tests/classes"
         }
     },
     "require": {
