@@ -14,6 +14,9 @@ use Exception;
 use PDO;
 
 use function array_map;
+use function get_class;
+use function strrchr;
+use function substr;
 
 class Sql implements Database
 {
@@ -97,11 +100,11 @@ class Sql implements Database
     private function getFields(): string
     {
         return implode(',', [
-            self::FIELD_NAME,
             self::FIELD_DOCUMENT,
+            self::FIELD_ID,
+            self::FIELD_NAME,
             self::FIELD_OFFICE,
-            self::FIELD_TYPE,
-            self::FIELD_ID
+            self::FIELD_TYPE
         ]);
     }
 
@@ -135,6 +138,36 @@ class Sql implements Database
         }
 
         return $collection;
+    }
+
+    /** @throws Exception */
+    public function store(Person $person): string
+    {
+        $statement = $this->pdo->prepare(
+            $sql = "INSERT INTO {$this->table} (
+                {$this->getFields()}
+            ) VALUES (
+                :document, :id, :name, :office, :type
+            )"
+        );
+
+        $type = substr(strrchr(get_class($person), '\\'), 1);
+        $office = null;
+        if ($person instanceof Natural) {
+            $office = $person->getOffice();
+        }
+
+        $statement->bindValue(':document', $person->getDocument()->getValue(), PDO::PARAM_STR);
+        $statement->bindValue(':id', $person->getId(), PDO::PARAM_INT);
+        $statement->bindValue(':name', $person->getName(), PDO::PARAM_STR);
+        $statement->bindValue(':type', $type, PDO::PARAM_STR);
+        $statement->bindValue(':office', $office, PDO::PARAM_STR);
+
+        if (!$statement->execute()) {
+            throw new Exception('storages.database.sql.store_error', 3);
+        }
+
+        return $this->pdo->lastInsertId();
     }
 
     private function updateTotalItemsWithoutFilters(): self

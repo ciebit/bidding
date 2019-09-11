@@ -19,7 +19,7 @@ class Legal implements Person
     public function __construct(
         string $name,
         Cnpj $cnpj,
-        string $id 
+        string $id = ''
     ) {
         $this->cnpj = $cnpj;
         $this->id = $id;

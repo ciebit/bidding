@@ -23,7 +23,7 @@ class Natural implements Person
         string $name,
         Cpf $cpf,
         string $office,
-        string $id 
+        string $id = ''
     ) {
         $this->cpf = $cpf;
         $this->id = $id;
