@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Ciebit\Bidding\Tests;
+namespace Ciebit\Bidding\Tests\Organs;
 
-use Ciebit\Bidding\Organ;
+use Ciebit\Bidding\Organs\Organ;
 use PHPUnit\Framework\TestCase;
 
 class OrganTest extends TestCase

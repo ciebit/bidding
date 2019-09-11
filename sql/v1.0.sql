@@ -6,3 +6,9 @@ CREATE TABLE `cb_bidding_persons` (
     `office` CHAR(100) NULL ,
     PRIMARY KEY  (`id`)
 ) ENGINE = InnoDB COMMENT = 'version:1.0';
+
+CREATE TABLE `cb_bidding_organs` ( 
+    `id` INT(5) UNSIGNED NOT NULL AUTO_INCREMENT ,
+    `name` VARCHAR(150) NOT NULL,
+    PRIMARY KEY  (`id`)
+) ENGINE = InnoDB COMMENT = 'version:1.0';

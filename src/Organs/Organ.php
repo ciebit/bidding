@@ -1,5 +1,5 @@
 <?php
-namespace Ciebit\Bidding;
+namespace Ciebit\Bidding\Organs;
 
 class Organ
 {
