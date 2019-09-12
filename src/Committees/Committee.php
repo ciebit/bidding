@@ -1,5 +1,5 @@
 <?php
-namespace Ciebit\Bidding;
+namespace Ciebit\Bidding\Committees;
 
 use DateTime;
 
@@ -29,7 +29,7 @@ class Committee
         string $externalId,
         string $managerId,
         array $membersId,
-        string $id
+        string $id = ''
     ) {
         $this->dateCreation = $dateCreation;
         $this->externalId = $externalId;

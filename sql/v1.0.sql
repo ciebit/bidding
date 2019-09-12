@@ -7,11 +7,13 @@ CREATE TABLE `cb_bidding_persons` (
     PRIMARY KEY  (`id`)
 ) ENGINE = InnoDB COMMENT = 'version:1.0';
 
+
 CREATE TABLE `cb_bidding_organs` ( 
     `id` INT(5) UNSIGNED NOT NULL AUTO_INCREMENT ,
     `name` VARCHAR(150) NOT NULL,
     PRIMARY KEY  (`id`)
 ) ENGINE = InnoDB COMMENT = 'version:1.0';
+
 
 CREATE TABLE `cb_bidding_publications` (
     `id` INT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -20,5 +22,23 @@ CREATE TABLE `cb_bidding_publications` (
     `description` TEXT NULL,
     `file_id` INT(5) UNSIGNED NOT NULL,
     `date` DATE NOT NULL,
+    PRIMARY KEY  (`id`)
+) ENGINE = InnoDB COMMENT = 'version:1.0';
+
+
+CREATE TABLE `cb_bidding_committees` (
+    `id` INT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `external_id` VARCHAR(100) NULL,
+    `name` VARCHAR(200) NOT NULL,
+    `date_creation` DATE NOT NULL,
+    `manager_id` INT(5) UNSIGNED NOT NULL,
+    PRIMARY KEY  (`id`)
+) ENGINE = InnoDB COMMENT = 'version:1.0';
+
+
+CREATE TABLE `cb_bidding_committees_members` (
+    `id` INT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `committee_id` INT(5) UNSIGNED NOT NULL,
+    `person_id` INT(5) UNSIGNED NOT NULL,
     PRIMARY KEY  (`id`)
 ) ENGINE = InnoDB COMMENT = 'version:1.0';
