@@ -12,3 +12,13 @@ CREATE TABLE `cb_bidding_organs` (
     `name` VARCHAR(150) NOT NULL,
     PRIMARY KEY  (`id`)
 ) ENGINE = InnoDB COMMENT = 'version:1.0';
+
+CREATE TABLE `cb_bidding_publications` (
+    `id` INT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `bidding_id` INT(5) UNSIGNED NOT NULL,
+    `name` VARCHAR(200) NOT NULL,
+    `description` TEXT NULL,
+    `file_id` INT(5) UNSIGNED NOT NULL,
+    `date` DATE NOT NULL,
+    PRIMARY KEY  (`id`)
+) ENGINE = InnoDB COMMENT = 'version:1.0';

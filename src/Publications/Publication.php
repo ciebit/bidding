@@ -1,5 +1,5 @@
 <?php
-namespace Ciebit\Bidding;
+namespace Ciebit\Bidding\Publications;
 
 use DateTime;
 
@@ -29,7 +29,7 @@ class Publication
         DateTime $date,
         string $biddingId,
         string $fileId,
-        string $id
+        string $id = ''
     ) {
         $this->biddingId = $biddingId;
         $this->date = $date;
