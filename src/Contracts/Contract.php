@@ -1,5 +1,5 @@
 <?php
-namespace Ciebit\Bidding;
+namespace Ciebit\Bidding\Contracts;
 
 use DateTime;
 use Ciebit\Bidding\Year;

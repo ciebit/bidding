@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Ciebit\Bidding\Tests;
+namespace Ciebit\Bidding\Contracts\Tests;
 
-use Ciebit\Bidding\Contract;
+use Ciebit\Bidding\Contracts\Contract;
 use Ciebit\Bidding\Year;
 use DateTime;
 use PHPUnit\Framework\TestCase;
