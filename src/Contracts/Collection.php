@@ -47,6 +47,17 @@ class Collection implements Countable, IteratorAggregate
         return null;
     }
 
+    public function getFilesId(): array
+    {
+        $ids = [];
+
+        foreach ($this->getIterator() as $item) {
+            $ids[] = $item->getFilesId();
+        }
+
+        return array_merge(...$ids);
+    }
+
     public function getIterator(): ArrayIterator
     {
         return $this->items->getIterator();

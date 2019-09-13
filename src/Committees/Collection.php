@@ -51,4 +51,15 @@ class Collection implements Countable, IteratorAggregate
     {
         return $this->items->getIterator();
     }
+
+    public function getMembersId(): array
+    {
+        $ids = [];
+
+        foreach ($this->getIterator() as $item) {
+            $ids[] = $item->getMembersId();
+        }
+
+        return array_merge(...$ids);
+    }
 }
