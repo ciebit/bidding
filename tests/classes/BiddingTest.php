@@ -79,7 +79,7 @@ class BiddingTest extends TestCase
         $this->modality = Modality::PUBLIC_COMPETITION();
         $this->noticePublicationDate = new DateTime('2019-08-20');
         $this->openingDateTime = new DateTime('2019-08-30');
-        $this->openingPlace = new Place('Name', 'Address', 'Complement', 'Neighborhood', 'Number', 12345000);
+        $this->openingPlace = new Place('Name', 'Address', '123', 'Neighborhood', 'Complement', 'City', 'Country', 12345000);
         $this->status = Status::OPEN();
         $this->type = Type::LOWEST_PRICE();
         $this->yearOfExercise = new Year(2019);
