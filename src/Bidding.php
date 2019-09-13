@@ -41,7 +41,7 @@ class Bidding
     private $openingPlace;
 
     /** @var array */
-    private $orgainsId;
+    private $organsId;
 
     /** @var string */
     private $personOrderedId;
@@ -79,7 +79,7 @@ class Bidding
         float $estimatedBudgetAmount,
         float $upperLimitValue,
         string $objectDescription,
-        array $orgainsId,
+        array $organsId,
         DateTime $openingDateTime,
         Place $openingPlace,
         DateTime $noticePublicationDate,
@@ -101,7 +101,7 @@ class Bidding
         $this->objectDescription = $objectDescription;
         $this->openingDateTime = $openingDateTime;
         $this->openingPlace = $openingPlace;
-        $this->orgainsId = $orgainsId;
+        $this->organsId = $organsId;
         $this->personOrderedId = $personOrderedId;
         $this->responsibleInformationId = $responsibleInformationId;
         $this->responsibleLegalAdviceId = $responsibleLegalAdviceId;
@@ -169,9 +169,9 @@ class Bidding
         return $this->openingPlace;
     }
 
-    public function getOrgainsId(): array
+    public function getOrgansId(): array
     {
-        return $this->orgainsId;
+        return $this->organsId;
     }
 
     public function getPersonOrderedId(): string

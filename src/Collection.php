@@ -7,6 +7,8 @@ use Ciebit\Bidding\Bidding;
 use Countable;
 use IteratorAggregate;
 
+use function array_merge;
+
 class Collection implements Countable, IteratorAggregate
 {
     /** @var ArrayObject */
@@ -47,8 +49,30 @@ class Collection implements Countable, IteratorAggregate
         return null;
     }
 
+    public function getFilesId(): array
+    {
+        $ids = [];
+
+        foreach ($this->getIterator() as $bidding) {
+            $ids[] = $bidding->getFilesId();
+        }
+
+        return array_merge(...$ids);
+    }
+
     public function getIterator(): ArrayIterator
     {
         return $this->items->getIterator();
+    }
+
+    public function getOrgansId(): array
+    {
+        $ids = [];
+
+        foreach ($this->getIterator() as $bidding) {
+            $ids[] = $bidding->getOrgansId();
+        }
+
+        return array_merge(...$ids);
     }
 }

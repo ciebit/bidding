@@ -20,7 +20,7 @@ class CollectionTest extends TestCase
     public function testCreate(): void
     {
         $biddings = [
-            new Bidding(
+            (new Bidding(
                 new Year(2017),
                 Modality::CONTEST(),
                 Type::BEST_TECHNIQUE(),
@@ -40,8 +40,8 @@ class CollectionTest extends TestCase
                 '77',
                 Status::CONTEST(),
                 '1'
-            ),
-            new Bidding(
+            ))->addFileId('1','2','3'),
+            (new Bidding(
                 new Year(2018),
                 Modality::ELETRONIC_TRADING(),
                 Type::LOWEST_PRICE(),
@@ -61,8 +61,8 @@ class CollectionTest extends TestCase
                 '777',
                 Status::DESERTED(),
                 '2'
-            ),
-            new Bidding(
+            ))->addFileId('4', '5', '6'),
+            (new Bidding(
                 new Year(2019),
                 Modality::INVITATION_LETTER(),
                 Type::TECHNIQUE_AND_PRICE(),
@@ -82,7 +82,7 @@ class CollectionTest extends TestCase
                 '7777',
                 Status::OPEN(),
                 '3'
-            ),
+            ))->addFileId('7', '8', '9')
         ];
 
         $collection = new Collection(...$biddings);
@@ -91,5 +91,7 @@ class CollectionTest extends TestCase
         $this->assertInstanceOf(ArrayObject::class, $collection->getArrayObject());
         $this->assertInstanceOf(ArrayIterator::class, $collection->getIterator());
         $this->assertEquals($biddings[1], $collection->getById('2'));
+        $this->assertEquals(range('1', '9'), $collection->getFilesId());
+        $this->assertEquals(range('1', '9'), $collection->getOrgansId());
     }
 }

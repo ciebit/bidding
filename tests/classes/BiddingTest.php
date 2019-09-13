@@ -42,7 +42,7 @@ class BiddingTest extends TestCase
     private $openingDateTime;
 
     /** @var array */
-    public const ORGAINS_ID = ['4444', '5555'];
+    public const ORGANS_ID = ['4444', '5555'];
 
     /** @var string */
     public const PERSON_ORDERED_ID = '111111';
@@ -96,7 +96,7 @@ class BiddingTest extends TestCase
             self::ESTIMATED_BUDGET_AMOUNT,
             self::UPPER_LIMIT_VALUE,
             self::OBJECT_DESCRIPTION,
-            self::ORGAINS_ID,
+            self::ORGANS_ID,
             $this->openingDateTime,
             $this->openingPlace,
             $this->noticePublicationDate,
@@ -115,7 +115,7 @@ class BiddingTest extends TestCase
         $this->assertEquals(self::OBJECT_DESCRIPTION, $bidding->getObjectDescription());
         $this->assertEquals($this->openingDateTime, $bidding->getOpeningDateTime());
         $this->assertEquals($this->openingPlace, $bidding->getOpeningPlace());
-        $this->assertEquals(self::ORGAINS_ID, $bidding->getOrgainsId());
+        $this->assertEquals(self::ORGANS_ID, $bidding->getOrgansId());
         $this->assertEquals($this->modality, $bidding->getModality());
         $this->assertEquals($this->noticePublicationDate, $bidding->getNoticePublicationDate());
         $this->assertEquals(self::NUMBER, $bidding->getNumber());

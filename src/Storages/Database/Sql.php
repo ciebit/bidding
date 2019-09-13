@@ -259,7 +259,7 @@ class Sql implements Database
             $this->pdo->beginTransaction();
             $id = $this->storeBidding($bidding);
             $this->storeFilesId($id, $bidding->getFilesId());
-            $this->storeOrgansId($id, $bidding->getOrgainsId());
+            $this->storeOrgansId($id, $bidding->getOrgansId());
             $this->pdo->commit();
         } catch (Exception $e) {
             $this->pdo->rollBack();
