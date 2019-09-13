@@ -8,6 +8,7 @@ use Ciebit\Bidding\Modality;
 use Ciebit\Bidding\Place;
 use Ciebit\Bidding\Status;
 use Ciebit\Bidding\Type;
+use Ciebit\Bidding\Year;
 use DateTime;
 use PHPUnit\Framework\TestCase;
 
@@ -67,8 +68,8 @@ class BiddingTest extends TestCase
     /** @var float */
     public const UPPER_LIMIT_VALUE = 7500.50;
 
-    /** @var int */
-    public const YEAR_OF_EXERCISE = 2019;
+    /** @var Year */
+    private $yearOfExercise;
 
 
     public function __construct()
@@ -81,12 +82,13 @@ class BiddingTest extends TestCase
         $this->openingPlace = new Place('Name', 'Address', 'Complement', 'Neighborhood', 'Number', 12345000);
         $this->status = Status::OPEN();
         $this->type = Type::LOWEST_PRICE();
+        $this->yearOfExercise = new Year(2019);
     }
     
     public function testCreate(): void
     {
         $bidding = new Bidding(
-            self::YEAR_OF_EXERCISE,
+            $this->yearOfExercise,
             $this->modality,
             $this->type,
             self::NUMBER,
@@ -125,6 +127,6 @@ class BiddingTest extends TestCase
         $this->assertEquals($this->type, $bidding->getType());
         $this->assertEquals($this->status, $bidding->getStatus());
         $this->assertEquals(self::UPPER_LIMIT_VALUE, $bidding->getUpperLimitValue());
-        $this->assertEquals(self::YEAR_OF_EXERCISE, $bidding->getYearOfExercise());
+        $this->assertEquals($this->yearOfExercise, $bidding->getYearOfExercise());
     }
 }

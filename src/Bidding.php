@@ -3,6 +3,7 @@ namespace Ciebit\Bidding;
 
 use Ciebit\Bidding\Modality;
 use Ciebit\Bidding\Place;
+use Ciebit\Bidding\Year;
 use DateTime;
 
 use function array_push;
@@ -66,11 +67,11 @@ class Bidding
     /** @var float */
     private $upperLimitValue;
 
-    /** @var int */
+    /** @var Year */
     private $yearOfExercise;
 
     public function __construct(
-        int $yearOfExercise,
+        Year $yearOfExercise,
         Modality $modality,
         Type $type,
         string $number,
@@ -213,7 +214,7 @@ class Bidding
         return $this->upperLimitValue;
     }
 
-    public function getYearOfExercise(): int
+    public function getYearOfExercise(): Year
     {
         return $this->yearOfExercise;
     }
