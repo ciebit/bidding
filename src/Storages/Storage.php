@@ -3,6 +3,7 @@ namespace Ciebit\Bidding\Storages;
 
 use Ciebit\Bidding\Collection;
 use Ciebit\Bidding\Bidding;
+use Ciebit\Bidding\Status;
 
 interface Storage
 {
@@ -91,6 +92,10 @@ interface Storage
     public const FIELD_YEAR_OF_EXERCISE = 'year_of_exercise';
 
     public function addFilterById(string $operator, string ...$id): self;
+
+    public function addFilterBySlug(string $operator, string ...$slug): self;
+
+    public function addFilterByStatus(string $operator, Status ...$status): self;
 
     public function addOrderBy(string $field, string $direction): self;
 

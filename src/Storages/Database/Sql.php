@@ -159,6 +159,24 @@ class Sql implements Database
         return $this;
     }
 
+    public function addFilterBySlug(string $operator, string ...$slug): Storage
+    {
+        $this->addFilter(self::COLUMN_SLUG, PDO::PARAM_STR, $operator, ...$slug);
+        return $this;
+    }
+
+    public function addFilterByStatus(string $operator, Status ...$status): Storage
+    {
+        $statusNumber = array_map(
+            function($status){ 
+                return $status->getValue(); 
+            }, 
+            $status
+        );
+        $this->addFilter(self::COLUMN_STATUS, PDO::PARAM_INT, $operator, ...$statusNumber);
+        return $this;
+    }
+
     public function addOrderBy(string $field, string $direction): Storage
     {
         $this->sqlHelper->addOrderBy($field, $direction);

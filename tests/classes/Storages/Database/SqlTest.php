@@ -56,6 +56,27 @@ class SqlTest extends TestCase
         $this->assertEquals($bidding, $collection->getById($id));
     }
 
+    public function testFindBySlug(): void
+    {
+        $this->storeData();
+        $pdo = new Sql(BuildPdo::build());
+        $bidding = BiddingData::getData()[1];
+        $slug = $bidding->getSlug();
+        $collection = $pdo->addFilterBySlug('=', $slug)->find();
+        $this->assertCount(1, $collection);
+        $this->assertEquals($bidding, $collection->getArrayObject()->offsetGet(0));
+    }
+
+    public function testFindByStatus(): void
+    {
+        $this->storeData();
+        $pdo = new Sql(BuildPdo::build());
+        $bidding = BiddingData::getData()[2];
+        $collection = $pdo->addFilterByStatus('=', $bidding->getStatus())->find();
+        $this->assertCount(1, $collection);
+        $this->assertEquals($bidding, $collection->getArrayObject()->offsetGet(0));
+    }
+
     public function testFindOrderBy(): void
     {
         $this->storeData();
