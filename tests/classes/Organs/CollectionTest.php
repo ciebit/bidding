@@ -5,19 +5,15 @@ namespace Ciebit\Bidding\Tests\Organs;
 
 use ArrayIterator;
 use ArrayObject;
-use Ciebit\Bidding\Organs\Organ;
 use Ciebit\Bidding\Organs\Collection;
+use Ciebit\Bidding\Tests\Organs\OrganData;
 use PHPUnit\Framework\TestCase;
 
 class CollectionTest extends TestCase
 {
     public function testCreate(): void
     {
-        $organs = [
-            new Organ('Name 01', '1'),
-            new Organ('Name 02', '2'),
-            new Organ('Name 03', '3'),
-        ];
+        $organs = OrganData::getData();
 
         $collection = new Collection(...$organs);
 

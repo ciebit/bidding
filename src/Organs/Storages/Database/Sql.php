@@ -14,10 +14,10 @@ use function array_map;
 class Sql implements Database
 {
     /** @var string */
-    private const FIELD_ID = 'id';
+    private const COLUMN_ID = Storage::FIELD_ID;
 
     /** @var string */
-    private const FIELD_NAME = 'name';
+    private const COLUMN_NAME = Storage::FIELD_NAME;
 
     /** @var PDO */
     private $pdo;
@@ -46,23 +46,29 @@ class Sql implements Database
     public function addFilterById(string $operator, string ...$ids): Storage
     {
         $ids = array_map('intval', $ids);
-        $this->addFilter(self::FIELD_ID, PDO::PARAM_INT, $operator, ...$ids);
+        $this->addFilter(self::COLUMN_ID, PDO::PARAM_INT, $operator, ...$ids);
+        return $this;
+    }
+
+    public function addOrderBy(string $field, string $direction): Storage
+    {
+        $this->sqlHelper->addOrderBy($field, $direction);
         return $this;
     }
 
     private function build(array $data): Organ
     {
         return new Organ(
-            $data[self::FIELD_NAME],
-            $data[self::FIELD_ID]
+            $data[self::COLUMN_NAME],
+            $data[self::COLUMN_ID]
         );
     }
 
     private function getFields(): string
     {
         return implode(',', [
-            self::FIELD_ID,
-            self::FIELD_NAME
+            self::COLUMN_ID,
+            self::COLUMN_NAME
         ]);
     }
 
@@ -98,10 +104,22 @@ class Sql implements Database
         return $collection;
     }
 
+    public function setLimit(int $limit): Storage
+    {
+        $this->sqlHelper->setLimit($limit);
+        return $this;
+    }
+
+    public function setOffset(int $offset): Storage
+    {
+        $this->sqlHelper->setOffset($offset);
+        return $this;
+    }
+
     /** @throws Exception */
     public function store(Organ $organ): string
     {
-        $name = self::FIELD_NAME;
+        $name = self::COLUMN_NAME;
 
         $statement = $this->pdo->prepare(
             "INSERT INTO {$this->table} (
