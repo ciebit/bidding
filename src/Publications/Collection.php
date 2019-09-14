@@ -36,6 +36,17 @@ class Collection implements Countable, IteratorAggregate
         return clone $this->items;
     }
 
+    public function getBiddingsId(): array
+    {
+        $ids = [];
+
+        foreach ($this->getIterator() as $publication) {
+            $ids[] = $publication->getBiddingId();
+        }
+
+        return $ids;
+    }
+
     public function getById(string $id): ?Publication
     {
         foreach ($this->getIterator() as $publication) {
@@ -45,6 +56,17 @@ class Collection implements Countable, IteratorAggregate
         }
 
         return null;
+    }
+
+    public function getFilesId(): array
+    {
+        $ids = [];
+
+        foreach ($this->getIterator() as $publication) {
+            $ids[] = $publication->getFileId();
+        }
+
+        return $ids;
     }
 
     public function getIterator(): ArrayIterator

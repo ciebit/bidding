@@ -11,29 +11,26 @@ use Exception;
 use PDO;
 
 use function array_map;
-use function get_class;
-use function strrchr;
-use function substr;
 
 class Sql implements Database
 {
     /** @var string */
-    private const FIELD_BIDDING_ID = 'bidding_id';
+    private const COLUMN_BIDDING_ID = Storage::FIELD_BIDDING_ID;
 
     /** @var string */
-    private const FIELD_DATE = 'date';
+    private const COLUMN_DATE = Storage::FIELD_DATE;
 
     /** @var string */
-    private const FIELD_DESCRIPTION = 'description';
+    private const COLUMN_DESCRIPTION = Storage::FIELD_DESCRIPTION;
 
     /** @var string */
-    private const FIELD_FILE_ID = 'file_id';
+    private const COLUMN_FILE_ID = Storage::FIELD_FILE_ID;
 
     /** @var string */
-    private const FIELD_ID = 'id';
+    private const COLUMN_ID = Storage::FIELD_ID;
 
     /** @var string */
-    private const FIELD_NAME = 'name';
+    private const COLUMN_NAME = Storage::FIELD_NAME;
 
     /** @var PDO */
     private $pdo;
@@ -59,34 +56,41 @@ class Sql implements Database
         return $this;
     }
 
+    public function addFilterByBiddingId(string $operator, string ...$ids): Storage
+    {
+        $ids = array_map('intval', $ids);
+        $this->addFilter(self::COLUMN_BIDDING_ID, PDO::PARAM_INT, $operator, ...$ids);
+        return $this;
+    }
+
     public function addFilterById(string $operator, string ...$ids): Storage
     {
         $ids = array_map('intval', $ids);
-        $this->addFilter(self::FIELD_ID, PDO::PARAM_INT, $operator, ...$ids);
+        $this->addFilter(self::COLUMN_ID, PDO::PARAM_INT, $operator, ...$ids);
         return $this;
     }
 
     private function build(array $data): Publication
     {
         return new Publication(
-            $data[self::FIELD_NAME],
-            $data[self::FIELD_DESCRIPTION],
-            new DateTime($data[self::FIELD_DATE]),
-            $data[self::FIELD_BIDDING_ID],
-            $data[self::FIELD_FILE_ID],
-            $data[self::FIELD_ID]
+            $data[self::COLUMN_NAME],
+            $data[self::COLUMN_DESCRIPTION],
+            new DateTime($data[self::COLUMN_DATE]),
+            $data[self::COLUMN_BIDDING_ID],
+            $data[self::COLUMN_FILE_ID],
+            $data[self::COLUMN_ID]
         );
     }
 
     private function getFields(): string
     {
         return implode(',', [
-            self::FIELD_BIDDING_ID,
-            self::FIELD_DATE,
-            self::FIELD_DESCRIPTION,
-            self::FIELD_FILE_ID,
-            self::FIELD_ID,
-            self::FIELD_NAME,
+            self::COLUMN_BIDDING_ID,
+            self::COLUMN_DATE,
+            self::COLUMN_DESCRIPTION,
+            self::COLUMN_FILE_ID,
+            self::COLUMN_ID,
+            self::COLUMN_NAME,
         ]);
     }
 
@@ -125,7 +129,7 @@ class Sql implements Database
     /** @throws Exception */
     public function store(Publication $publication): string
     {
-        $fields = str_replace(','.self::FIELD_ID.',', ',', $this->getFields());
+        $fields = str_replace(','.self::COLUMN_ID.',', ',', $this->getFields());
 
         $statement = $this->pdo->prepare(
             $sql = "INSERT INTO {$this->table} (
@@ -146,8 +150,6 @@ class Sql implements Database
         $statement->bindValue(':name', $publication->getName(), PDO::PARAM_STR);
 
         if (!$statement->execute()) {
-            echo $sql;
-            var_dump($statement->errorInfo());
             throw new Exception('publications.storages.database.sql.store_error', 3);
         }
 
