@@ -22,97 +22,97 @@ use function sprintf;
 class Sql implements Database
 {
     /** @var string */
-    private const FILES_FIELD_BIDDING_ID = 'bidding_id';
+    private const COLUMN_COMMITTEE_ID = 'committee_id';
 
     /** @var string */
-    private const FILES_FIELD_FILE_ID = 'file_id';
+    private const COLUMN_ESTIMATE_BUDGET_AMOUNT = 'estimate_budget_amount';
 
     /** @var string */
-    private const FIELD_COMMITTEE_ID = 'committee_id';
+    private const COLUMN_ID = 'id';
 
     /** @var string */
-    private const FIELD_ESTIMATE_BUDGET_AMOUNT = 'estimate_budget_amount';
+    private const COLUMN_FILES_ID = 'files_id';
 
     /** @var string */
-    private const FIELD_ID = 'id';
+    private const COLUMN_MODALITY = 'modality';
 
     /** @var string */
-    private const FIELD_FILES_ID = 'files_id';
+    private const COLUMN_NOTICE_PUBLICATION_DATE = 'notice_publication_date';
 
     /** @var string */
-    private const FIELD_MODALITY = 'modality';
+    private const COLUMN_NUMBER = 'number';
 
     /** @var string */
-    private const FIELD_NOTICE_PUBLICATION_DATE = 'notice_publication_date';
+    private const COLUMN_OBJECT_DESCRIPTION = 'object_description';
 
     /** @var string */
-    private const FIELD_NUMBER = 'number';
+    private const COLUMN_OPENING_DATE_TIME = 'opening_date_time';
 
     /** @var string */
-    private const FIELD_OBJECT_DESCRIPTION = 'object_description';
+    private const COLUMN_OPENING_PLACE_ADDRESS = 'opening_place_address';
 
     /** @var string */
-    private const FIELD_OPENING_DATE_TIME = 'opening_date_time';
+    private const COLUMN_OPENING_PLACE_CITY = 'opening_place_city';
 
     /** @var string */
-    private const FIELD_OPENING_PLACE_ADDRESS = 'opening_place_address';
+    private const COLUMN_OPENING_PLACE_COMPLEMENT = 'opening_place_complement';
 
     /** @var string */
-    private const FIELD_OPENING_PLACE_CITY = 'opening_place_city';
+    private const COLUMN_OPENING_PLACE_NAME = 'opening_place_name';
 
     /** @var string */
-    private const FIELD_OPENING_PLACE_COMPLEMENT = 'opening_place_complement';
+    private const COLUMN_OPENING_PLACE_NEIGHBORHOOD = 'opening_place_neighborhood';
 
     /** @var string */
-    private const FIELD_OPENING_PLACE_NAME = 'opening_place_name';
+    private const COLUMN_OPENING_PLACE_NUMBER = 'opening_place_number';
 
     /** @var string */
-    private const FIELD_OPENING_PLACE_NEIGHBORHOOD = 'opening_place_neighborhood';
+    private const COLUMN_OPENING_PLACE_STATE = 'opening_place_state';
 
     /** @var string */
-    private const FIELD_OPENING_PLACE_NUMBER = 'opening_place_number';
+    private const COLUMN_OPENING_PLACE_ZIPCODE = 'opening_place_zipcode';
 
     /** @var string */
-    private const FIELD_OPENING_PLACE_STATE = 'opening_place_state';
+    private const COLUMN_ORGANS_ID = 'organs_id';
 
     /** @var string */
-    private const FIELD_OPENING_PLACE_ZIPCODE = 'opening_place_zipcode';
+    private const COLUMN_PERSON_ORDERED_ID = 'person_ordered_id';
 
     /** @var string */
-    private const FIELD_ORGANS_ID = 'organs_id';
+    private const COLUMN_RESPONSIBLE_APPROVAL_ID = 'responsible_approval_id';
 
     /** @var string */
-    private const FIELD_PERSON_ORDERED_ID = 'person_ordered_id';
+    private const COLUMN_RESPONSIBLE_AWARD_ID = 'responsible_award_id';
 
     /** @var string */
-    private const FIELD_RESPONSIBLE_APPROVAL_ID = 'responsible_approval_id';
+    private const COLUMN_RESPONSIBLE_INFORMATION_ID = 'responsible_information_id';
 
     /** @var string */
-    private const FIELD_RESPONSIBLE_AWARD_ID = 'responsible_award_id';
+    private const COLUMN_RESPONSIBLE_LEGAL_ADVICE_ID = 'responsible_legal_advice_id';
 
     /** @var string */
-    private const FIELD_RESPONSIBLE_INFORMATION_ID = 'responsible_information_id';
+    private const COLUMN_STATUS = 'status';
 
     /** @var string */
-    private const FIELD_RESPONSIBLE_LEGAL_ADVICE_ID = 'responsible_legal_advice_id';
+    private const COLUMN_TYPE = 'type';
 
     /** @var string */
-    private const FIELD_STATUS = 'status';
+    private const COLUMN_UPPER_LIMITE_VALUE = 'upper_limite_value';
 
     /** @var string */
-    private const FIELD_TYPE = 'type';
+    private const COLUMN_YEAR_OF_EXERCISE = 'year_of_exercise';
 
     /** @var string */
-    private const FIELD_UPPER_LIMITE_VALUE = 'upper_limite_value';
+    private const FILES_COLUMN_BIDDING_ID = 'bidding_id';
 
     /** @var string */
-    private const FIELD_YEAR_OF_EXERCISE = 'year_of_exercise';
+    private const FILES_COLUMN_FILE_ID = 'file_id';
 
     /** @var string */
-    private const ORGANS_FIELD_BIDDING_ID = 'bidding_id';
+    private const ORGANS_COLUMN_BIDDING_ID = 'bidding_id';
 
     /** @var string */
-    private const ORGANS_FIELD_ORGAN_ID = 'organ_id';
+    private const ORGANS_COLUMN_ORGAN_ID = 'organ_id';
 
     /** @var PDO */
     private $pdo;
@@ -152,47 +152,53 @@ class Sql implements Database
     public function addFilterById(string $operator, string ...$ids): Storage
     {
         $ids = array_map('intval', $ids);
-        $this->addFilter(self::FIELD_ID, PDO::PARAM_INT, $operator, ...$ids);
+        $this->addFilter(self::COLUMN_ID, PDO::PARAM_INT, $operator, ...$ids);
+        return $this;
+    }
+
+    public function addOrderBy(string $field, string $direction): Storage
+    {
+        $this->sqlHelper->addOrderBy($field, $direction);
         return $this;
     }
 
     private function build(array $data): Bidding
     {
         $place = new Place(
-            $data[self::FIELD_OPENING_PLACE_NAME],
-            $data[self::FIELD_OPENING_PLACE_ADDRESS],
-            $data[self::FIELD_OPENING_PLACE_NUMBER],
-            $data[self::FIELD_OPENING_PLACE_NEIGHBORHOOD],
-            $data[self::FIELD_OPENING_PLACE_COMPLEMENT],
-            $data[self::FIELD_OPENING_PLACE_CITY],
-            $data[self::FIELD_OPENING_PLACE_STATE],
-            (int) $data[self::FIELD_OPENING_PLACE_ZIPCODE]
+            $data[self::COLUMN_OPENING_PLACE_NAME],
+            $data[self::COLUMN_OPENING_PLACE_ADDRESS],
+            $data[self::COLUMN_OPENING_PLACE_NUMBER],
+            $data[self::COLUMN_OPENING_PLACE_NEIGHBORHOOD],
+            $data[self::COLUMN_OPENING_PLACE_COMPLEMENT],
+            $data[self::COLUMN_OPENING_PLACE_CITY],
+            $data[self::COLUMN_OPENING_PLACE_STATE],
+            (int) $data[self::COLUMN_OPENING_PLACE_ZIPCODE]
         );
 
         $bidding = new Bidding(
-            new Year((int) $data[self::FIELD_YEAR_OF_EXERCISE]),
-            new Modality((int) $data[self::FIELD_MODALITY]),
-            new Type((int) $data[self::FIELD_TYPE]),
-            $data[self::FIELD_NUMBER],
-            $data[self::FIELD_COMMITTEE_ID],
-            (float) $data[self::FIELD_ESTIMATE_BUDGET_AMOUNT],
-            $data[self::FIELD_UPPER_LIMITE_VALUE],
-            $data[self::FIELD_OBJECT_DESCRIPTION],
-            explode(',', $data[self::FIELD_ORGANS_ID]),
-            new DateTime($data[self::FIELD_OPENING_DATE_TIME]),
+            new Year((int) $data[self::COLUMN_YEAR_OF_EXERCISE]),
+            new Modality((int) $data[self::COLUMN_MODALITY]),
+            new Type((int) $data[self::COLUMN_TYPE]),
+            $data[self::COLUMN_NUMBER],
+            $data[self::COLUMN_COMMITTEE_ID],
+            (float) $data[self::COLUMN_ESTIMATE_BUDGET_AMOUNT],
+            $data[self::COLUMN_UPPER_LIMITE_VALUE],
+            $data[self::COLUMN_OBJECT_DESCRIPTION],
+            explode(',', $data[self::COLUMN_ORGANS_ID]),
+            new DateTime($data[self::COLUMN_OPENING_DATE_TIME]),
             $place,
-            new DateTime($data[self::FIELD_NOTICE_PUBLICATION_DATE]),
-            $data[self::FIELD_PERSON_ORDERED_ID],
-            $data[self::FIELD_RESPONSIBLE_INFORMATION_ID],
-            $data[self::FIELD_RESPONSIBLE_LEGAL_ADVICE_ID],
-            $data[self::FIELD_RESPONSIBLE_AWARD_ID],
-            $data[self::FIELD_RESPONSIBLE_APPROVAL_ID],
-            new Status((int) $data[self::FIELD_STATUS]),
-            $data[self::FIELD_ID]
+            new DateTime($data[self::COLUMN_NOTICE_PUBLICATION_DATE]),
+            $data[self::COLUMN_PERSON_ORDERED_ID],
+            $data[self::COLUMN_RESPONSIBLE_INFORMATION_ID],
+            $data[self::COLUMN_RESPONSIBLE_LEGAL_ADVICE_ID],
+            $data[self::COLUMN_RESPONSIBLE_AWARD_ID],
+            $data[self::COLUMN_RESPONSIBLE_APPROVAL_ID],
+            new Status((int) $data[self::COLUMN_STATUS]),
+            $data[self::COLUMN_ID]
         );
 
-        if (isset($data[self::FIELD_FILES_ID])) {
-            $bidding->addFileId(...explode(',', $data[self::FIELD_FILES_ID]));
+        if (isset($data[self::COLUMN_FILES_ID])) {
+            $bidding->addFileId(...explode(',', $data[self::COLUMN_FILES_ID]));
         }
 
 
@@ -221,14 +227,14 @@ class Sql implements Database
                 WHERE {$this->sqlHelper->generateSqlFilters()}
                 {$this->sqlHelper->generateSqlOrder()}
                 {$this->sqlHelper->generateSqlLimit()}",
-                self::FILES_FIELD_FILE_ID,
-                self::FILES_FIELD_BIDDING_ID,
-                self::FIELD_ID,
-                self::FIELD_FILES_ID,
-                self::ORGANS_FIELD_ORGAN_ID,
-                self::ORGANS_FIELD_BIDDING_ID,
-                self::FIELD_ID,
-                self::FIELD_ORGANS_ID
+                self::FILES_COLUMN_FILE_ID,
+                self::FILES_COLUMN_BIDDING_ID,
+                self::COLUMN_ID,
+                self::COLUMN_FILES_ID,
+                self::ORGANS_COLUMN_ORGAN_ID,
+                self::ORGANS_COLUMN_BIDDING_ID,
+                self::COLUMN_ID,
+                self::COLUMN_ORGANS_ID
             )
         );
 
@@ -251,6 +257,17 @@ class Sql implements Database
         return $collection;
     }
 
+    public function setLimit(int $limit): Storage
+    {
+        $this->sqlHelper->setLimit($limit);
+        return $this;
+    }
+
+    public function setOffset(int $offset): Storage
+    {
+        $this->sqlHelper->setOffset($offset);
+        return $this;
+    }
 
     /** @throws Exception */
     public function store(Bidding $bidding): string
@@ -306,30 +323,30 @@ class Sql implements Database
                     :upperLimiteValue,
                     :yearOfExercise
                 )",
-                self::FIELD_COMMITTEE_ID,
-                self::FIELD_ESTIMATE_BUDGET_AMOUNT,
-                self::FIELD_MODALITY,
-                self::FIELD_NOTICE_PUBLICATION_DATE,
-                self::FIELD_NUMBER,
-                self::FIELD_OBJECT_DESCRIPTION,
-                self::FIELD_OPENING_DATE_TIME,
-                self::FIELD_OPENING_PLACE_ADDRESS,
-                self::FIELD_OPENING_PLACE_CITY,
-                self::FIELD_OPENING_PLACE_COMPLEMENT,
-                self::FIELD_OPENING_PLACE_NAME,
-                self::FIELD_OPENING_PLACE_NEIGHBORHOOD,
-                self::FIELD_OPENING_PLACE_NUMBER,
-                self::FIELD_OPENING_PLACE_STATE,
-                self::FIELD_OPENING_PLACE_ZIPCODE,
-                self::FIELD_PERSON_ORDERED_ID,
-                self::FIELD_RESPONSIBLE_APPROVAL_ID,
-                self::FIELD_RESPONSIBLE_AWARD_ID,
-                self::FIELD_RESPONSIBLE_INFORMATION_ID,
-                self::FIELD_RESPONSIBLE_LEGAL_ADVICE_ID,
-                self::FIELD_STATUS,
-                self::FIELD_TYPE,
-                self::FIELD_UPPER_LIMITE_VALUE,
-                self::FIELD_YEAR_OF_EXERCISE
+                self::COLUMN_COMMITTEE_ID,
+                self::COLUMN_ESTIMATE_BUDGET_AMOUNT,
+                self::COLUMN_MODALITY,
+                self::COLUMN_NOTICE_PUBLICATION_DATE,
+                self::COLUMN_NUMBER,
+                self::COLUMN_OBJECT_DESCRIPTION,
+                self::COLUMN_OPENING_DATE_TIME,
+                self::COLUMN_OPENING_PLACE_ADDRESS,
+                self::COLUMN_OPENING_PLACE_CITY,
+                self::COLUMN_OPENING_PLACE_COMPLEMENT,
+                self::COLUMN_OPENING_PLACE_NAME,
+                self::COLUMN_OPENING_PLACE_NEIGHBORHOOD,
+                self::COLUMN_OPENING_PLACE_NUMBER,
+                self::COLUMN_OPENING_PLACE_STATE,
+                self::COLUMN_OPENING_PLACE_ZIPCODE,
+                self::COLUMN_PERSON_ORDERED_ID,
+                self::COLUMN_RESPONSIBLE_APPROVAL_ID,
+                self::COLUMN_RESPONSIBLE_AWARD_ID,
+                self::COLUMN_RESPONSIBLE_INFORMATION_ID,
+                self::COLUMN_RESPONSIBLE_LEGAL_ADVICE_ID,
+                self::COLUMN_STATUS,
+                self::COLUMN_TYPE,
+                self::COLUMN_UPPER_LIMITE_VALUE,
+                self::COLUMN_YEAR_OF_EXERCISE
             )
         );
 
@@ -378,8 +395,8 @@ class Sql implements Database
             $values[] = "(:bidding_id, :file_id_{$i})";
         }
 
-        $fieldBiddingId = self::FILES_FIELD_BIDDING_ID;
-        $fieldFileId = self::FILES_FIELD_FILE_ID;
+        $fieldBiddingId = self::FILES_COLUMN_BIDDING_ID;
+        $fieldFileId = self::FILES_COLUMN_FILE_ID;
 
         $statement = $this->pdo->prepare(
             "INSERT INTO {$this->tableFiles} (
@@ -417,8 +434,8 @@ class Sql implements Database
             $values[] = "(:bidding_id, :organ_id_{$i})";
         }
 
-        $fieldBiddingId = self::ORGANS_FIELD_BIDDING_ID;
-        $fieldOrganId = self::ORGANS_FIELD_ORGAN_ID;
+        $fieldBiddingId = self::ORGANS_COLUMN_BIDDING_ID;
+        $fieldOrganId = self::ORGANS_COLUMN_ORGAN_ID;
 
         $statement = $this->pdo->prepare(
             "INSERT INTO {$this->tableOrgans} (

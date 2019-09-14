@@ -3,16 +3,11 @@ declare(strict_types=1);
 
 namespace Ciebit\Bidding\Tests\Storages\Database;
 
-use Ciebit\Bidding\Bidding;
 use Ciebit\Bidding\Collection;
-use Ciebit\Bidding\Modality;
-use Ciebit\Bidding\Place;
-use Ciebit\Bidding\Status;
 use Ciebit\Bidding\Storages\Database\Sql;
+use Ciebit\Bidding\Storages\Storage;
 use Ciebit\Bidding\Tests\BuildPdo;
-use Ciebit\Bidding\Type;
-use Ciebit\Bidding\Year;
-use DateTime;
+use Ciebit\Bidding\Tests\BiddingData;
 use PHPUnit\Framework\TestCase;
 
 class SqlTest extends TestCase
@@ -20,9 +15,9 @@ class SqlTest extends TestCase
     private function setDatabaseDefault(): void
     {
         $pdo = BuildPdo::build();
-        $pdo->exec('DELETE FROM `cb_bidding`');
-        $pdo->exec('DELETE FROM `cb_bidding_files`');
-        $pdo->exec('DELETE FROM `cb_bidding_organs_association`');
+        $pdo->exec('TRUNCATE TABLE `cb_bidding`');
+        $pdo->exec('TRUNCATE TABLE `cb_bidding_files`');
+        $pdo->exec('TRUNCATE TABLE `cb_bidding_organs_association`');
     }
 
     protected function setUp(): void
@@ -30,44 +25,60 @@ class SqlTest extends TestCase
         $this->setDatabaseDefault();
     }
 
-    public function testStoreAndFind(): void
+    private function storeData(): void
+    {
+        $pdo = BuildPdo::build();
+        $sql = new Sql($pdo);
+        $biddings = BiddingData::getData();
+
+        foreach($biddings as $bidding) {
+            $sql->store($bidding);
+        }
+    }
+
+    public function testStore(): void
     {
         $pdo = new Sql(BuildPdo::build());
-        $bidding = new Bidding(
-                new Year(2017),
-                Modality::CONTEST(),
-                Type::BEST_TECHNIQUE(),
-                '123',
-                '22',
-                48754.45,
-                50000.00,
-                'Object Description 1',
-                ['1', '2', '3'],
-                new DateTime('2017-09-12'),
-                new Place('Place', 'Address', '223', 'Neighborhood', 'Complement', 'City', 'Country', 62475000),
-                new DateTime('2017-09-01'),
-                '33',
-                '44',
-                '55',
-                '66',
-                '77',
-                Status::CONTEST(),
-                '1'
-        );
-        $bidding->addFileId('9', '8', '7');
+        $bidding = BiddingData::getData()[0];
         $id = $pdo->store($bidding);
+        $this->assertIsString($id);
+    }
+
+    public function testFindById(): void
+    {
+        $this->storeData();
+        $pdo = new Sql(BuildPdo::build());
+        $bidding = BiddingData::getData()[0];
+        $id = $bidding->getId();
         $collection = $pdo->addFilterById('=', $id)->find();
         $this->assertInstanceOf(Collection::class, $collection);
         $this->assertCount(1, $collection);
+        $this->assertEquals($bidding, $collection->getById($id));
+    }
 
-        $biddingStorage = $collection->getById($id);
-        $this->assertEquals($id, $biddingStorage->getId());
-        $this->assertEquals($bidding->getCommitteeId(), $biddingStorage->getCommitteeId());
-        $this->assertEquals($bidding->getEstimatedBudgetAmount(), $biddingStorage->getEstimatedBudgetAmount());
-        $this->assertEquals($bidding->getFilesId(), $biddingStorage->getFilesId());
-        $this->assertEquals($bidding->getYearOfExercise(), $biddingStorage->getYearOfExercise());
-        $this->assertEquals($bidding->getModality(), $biddingStorage->getModality());
-        $this->assertEquals($bidding->getType(), $biddingStorage->getType());
-        $this->assertEquals($bidding->getNumber(), $biddingStorage->getNumber());
+    public function testFindOrderBy(): void
+    {
+        $this->storeData();
+        $pdo = new Sql(BuildPdo::build());
+        $bidding = BiddingData::getData()[2];
+        $collection = $pdo->addOrderBy(Storage::FIELD_YEAR_OF_EXERCISE, 'DESC')->find();
+        $this->assertEquals($bidding, $collection->getArrayObject()->offsetGet(0));
+    }
+
+    public function testFindWithLimit(): void
+    {
+        $this->storeData();
+        $pdo = new Sql(BuildPdo::build());
+        $collection = $pdo->setLimit(2)->find();
+        $this->assertCount(2, $collection);
+    }
+
+    public function testFindWithOffset(): void
+    {
+        $this->storeData();
+        $pdo = new Sql(BuildPdo::build());
+        $collection = $pdo->setOffset(1)->setLimit(3)->find();
+        $bidding = BiddingData::getData()[1];
+        $this->assertEquals($bidding, $collection->getArrayObject()->offsetGet(0));
     }
 }
