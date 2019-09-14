@@ -79,6 +79,7 @@ CREATE TABLE `cb_bidding` (
     `modality` TINYINT(1) UNSIGNED NOT NULL,
     `notice_publication_date` DATETIME NOT NULL,
     `number` VARCHAR(100) NOT NULL,
+    `slug` VARCHAR(200) NOT NULL,
     `object_description` TEXT NULL,
     `opening_date_time` DATETIME NOT NULL,
     `opening_place_name` VARCHAR(200) NULL,

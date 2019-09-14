@@ -91,6 +91,9 @@ class Sql implements Database
     private const COLUMN_RESPONSIBLE_LEGAL_ADVICE_ID = 'responsible_legal_advice_id';
 
     /** @var string */
+    private const COLUMN_SLUG = 'slug';
+
+    /** @var string */
     private const COLUMN_STATUS = 'status';
 
     /** @var string */
@@ -180,6 +183,7 @@ class Sql implements Database
             new Modality((int) $data[self::COLUMN_MODALITY]),
             new Type((int) $data[self::COLUMN_TYPE]),
             $data[self::COLUMN_NUMBER],
+            $data[self::COLUMN_SLUG],
             $data[self::COLUMN_COMMITTEE_ID],
             (float) $data[self::COLUMN_ESTIMATE_BUDGET_AMOUNT],
             $data[self::COLUMN_UPPER_LIMITE_VALUE],
@@ -296,7 +300,7 @@ class Sql implements Database
                     %s, %s, %s, %s, %s,
                     %s, %s, %s, %s, %s, 
                     %s, %s, %s, %s, %s,
-                    %s, %s, %s, %s
+                    %s, %s, %s, %s, %s
                 ) VALUES (
                     :committeeId,
                     :estimateBudgetAmount,
@@ -318,6 +322,7 @@ class Sql implements Database
                     :responsibleAwardId,
                     :responsibleInformationId,
                     :responsibleLegalAdviceId,
+                    :slug,
                     :status,
                     :type,
                     :upperLimiteValue,
@@ -343,6 +348,7 @@ class Sql implements Database
                 self::COLUMN_RESPONSIBLE_AWARD_ID,
                 self::COLUMN_RESPONSIBLE_INFORMATION_ID,
                 self::COLUMN_RESPONSIBLE_LEGAL_ADVICE_ID,
+                self::COLUMN_SLUG,
                 self::COLUMN_STATUS,
                 self::COLUMN_TYPE,
                 self::COLUMN_UPPER_LIMITE_VALUE,
@@ -370,6 +376,7 @@ class Sql implements Database
         $statement->bindValue(':responsibleAwardId', $bidding->getResponsibleAwardId(), PDO::PARAM_INT);
         $statement->bindValue(':responsibleInformationId', $bidding->getResponsibleInformationId(), PDO::PARAM_INT);
         $statement->bindValue(':responsibleLegalAdviceId', $bidding->getResponsibleLegalAdviceId(), PDO::PARAM_INT);
+        $statement->bindValue(':slug', $bidding->getSlug(), PDO::PARAM_STR);
         $statement->bindValue(':status', $bidding->getStatus()->getValue(), PDO::PARAM_INT);
         $statement->bindValue(':type', $bidding->getType()->getValue(), PDO::PARAM_INT);
         $statement->bindValue(':upperLimiteValue', $bidding->getUpperLimitValue(), PDO::PARAM_STR);

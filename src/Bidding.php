@@ -58,6 +58,9 @@ class Bidding
     /** @var string */
     private $responsibleApprovalId;
 
+    /** @var string */
+    private $slug;
+
     /** @var Status */
     private $status;
 
@@ -75,6 +78,7 @@ class Bidding
         Modality $modality,
         Type $type,
         string $number,
+        string $slug,
         string $committeeId,
         float $estimatedBudgetAmount,
         float $upperLimitValue,
@@ -98,6 +102,7 @@ class Bidding
         $this->modality = $modality;
         $this->noticePublicationDate = $noticePublicationDate;
         $this->number = $number;
+        $this->slug = $slug;
         $this->objectDescription = $objectDescription;
         $this->openingDateTime = $openingDateTime;
         $this->openingPlace = $openingPlace;
@@ -197,6 +202,11 @@ class Bidding
     public function getResponsibleApprovalId(): string
     {
         return $this->responsibleApprovalId;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
     }
 
     public function getStatus(): Status

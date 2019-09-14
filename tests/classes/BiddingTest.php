@@ -59,6 +59,9 @@ class BiddingTest extends TestCase
     /** @var string */
     public const RESPONSIBLE_APPROVAL_ID = '555555';
 
+    /** @var string */
+    public const SLUG = '111-slug';
+
     /** @var Status */
     private $status;
 
@@ -92,6 +95,7 @@ class BiddingTest extends TestCase
             $this->modality,
             $this->type,
             self::NUMBER,
+            self::SLUG,
             self::COMITTEE_ID,
             self::ESTIMATED_BUDGET_AMOUNT,
             self::UPPER_LIMIT_VALUE,
@@ -124,8 +128,9 @@ class BiddingTest extends TestCase
         $this->assertEquals(self::RESPONSIBLE_INFORMATION_ID, $bidding->getResponsibleInformationId());
         $this->assertEquals(self::RESPONSIBLE_LEGAL_ADVICE_ID, $bidding->getResponsibleLegalAdviceId());
         $this->assertEquals(self::PERSON_ORDERED_ID, $bidding->getPersonOrderedId());
-        $this->assertEquals($this->type, $bidding->getType());
+        $this->assertEquals(self::SLUG, $bidding->getSlug());
         $this->assertEquals($this->status, $bidding->getStatus());
+        $this->assertEquals($this->type, $bidding->getType());
         $this->assertEquals(self::UPPER_LIMIT_VALUE, $bidding->getUpperLimitValue());
         $this->assertEquals($this->yearOfExercise, $bidding->getYearOfExercise());
     }

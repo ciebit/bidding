@@ -76,6 +76,9 @@ interface Storage
     public const FIELD_RESPONSIBLE_LEGAL_ADVICE_ID = 'responsible_legal_advice_id';
 
     /** @var string */
+    public const FIELD_SLUG = 'slug';
+
+    /** @var string */
     public const FIELD_STATUS = 'status';
 
     /** @var string */
