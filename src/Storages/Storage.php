@@ -101,6 +101,8 @@ interface Storage
 
     public function find(): Collection;
 
+    public function getTotalItemsOfLastFindWithoutLimitations(): int;
+
     public function setLimit(int $limit): self;
 
     public function setOffset(int $offset): self;

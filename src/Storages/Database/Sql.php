@@ -227,6 +227,11 @@ class Sql implements Database
         return $bidding;
     }
 
+    public function getTotalItemsOfLastFindWithoutLimitations(): int
+    {
+        return $this->totalItemsOfLastFindWithoutLimitations;
+    }
+
     /** @throws Exception */
     public function find(): Collection
     {

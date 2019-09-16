@@ -8,6 +8,8 @@ interface Storage
 {
     public function addFilterById(string $operator, string ...$id): self;
 
+    public function getTotalItemsOfLastFindWithoutLimitations(): int;
+
     public function find(): Collection;
 
     public function store(Contract $contract): string;

@@ -102,4 +102,12 @@ class SqlTest extends TestCase
         $bidding = BiddingData::getData()[1];
         $this->assertEquals($bidding, $collection->getArrayObject()->offsetGet(0));
     }
+
+    public function testGetTotalItemsOfLastFindWithoutLimitations(): void
+    {
+        $this->storeData();
+        $sql = new Sql(BuildPdo::build());
+        $collection = $sql->setLimit(1)->addFilterById('=', '1', '2')->find();
+        $this->assertEquals(2, $sql->getTotalItemsOfLastFindWithoutLimitations());
+    }
 }

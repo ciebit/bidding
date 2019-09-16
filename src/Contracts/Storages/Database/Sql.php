@@ -160,6 +160,11 @@ class Sql implements Database
         return $collection;
     }
 
+    public function getTotalItemsOfLastFindWithoutLimitations(): int
+    {
+        return $this->totalItemsOfLastFindWithoutLimitations;
+    }
+
 
     /** @throws Exception */
     public function store(Contract $contract): string
