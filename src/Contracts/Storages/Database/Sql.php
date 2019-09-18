@@ -97,17 +97,24 @@ class Sql implements Database
         return $this;
     }
 
+    public function addFilterByBiddingId(string $operator, string ...$ids): Storage
+    {
+        $ids = array_map('intval', $ids);
+        $this->addFilter(self::FIELD_BIDDING_ID, PDO::PARAM_INT, $operator, ...$ids);
+        return $this;
+    }
+
     private function build(array $data): Contract
     {
         $contract = new Contract(
             $data[self::FIELD_BIDDING_ID],
             new Year((int) $data[self::FIELD_YEAR_OF_EXERCISE]),
-            $data[self::FIELD_NUMBER],
+            (string) $data[self::FIELD_NUMBER],
             new DateTime($data[self::FIELD_DATE]),
             new DateTime($data[self::FIELD_START_DATE]),
             new DateTime($data[self::FIELD_FINAL_DATE]),
             (float) $data[self::FIELD_GLOBAL_PRICE],
-            $data[self::FIELD_OBJECT_DESCRIPTION],
+            (string) $data[self::FIELD_OBJECT_DESCRIPTION],
             $data[self::FIELD_ORGAN_ID],
             $data[self::FIELD_PERSON_ID],
             $data[self::FIELD_ID]
@@ -223,7 +230,7 @@ class Sql implements Database
         $statement->bindValue(':date', $contract->getDate()->format('Y-m-d'), PDO::PARAM_STR);
         $statement->bindValue(':startDate', $contract->getStartDate()->format('Y-m-d'), PDO::PARAM_STR);
         $statement->bindValue(':finalDate', $contract->getFinalDate()->format('Y-m-d'), PDO::PARAM_STR);
-        $statement->bindValue(':globalPrice', $contract->getGlobalPrice(), PDO::PARAM_INT);
+        $statement->bindValue(':globalPrice', $contract->getGlobalPrice(), PDO::PARAM_STR);
         $statement->bindValue(':objectDescription', $contract->getObjectDescription(), PDO::PARAM_STR);
 
         if (! $statement->execute()) {
