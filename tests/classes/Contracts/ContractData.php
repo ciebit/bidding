@@ -36,7 +36,7 @@ class ContractData
                 60452.5, 
                 'Object Description 2', 
                 '78', 
-                '90', 
+                '79', 
                 '2')
             )->addFileId('6', '7'),
 
@@ -50,7 +50,7 @@ class ContractData
                 62237.9, 
                 'Object Description 3', 
                 '90', 
-                '65', 
+                '80', 
                 '3'
             )
         ];

@@ -7,6 +7,8 @@ use Ciebit\Bidding\Contracts\Contract;
 use Countable;
 use IteratorAggregate;
 
+use function array_merge;
+
 class Collection implements Countable, IteratorAggregate
 {
     /** @var ArrayObject */
@@ -61,5 +63,16 @@ class Collection implements Countable, IteratorAggregate
     public function getIterator(): ArrayIterator
     {
         return $this->items->getIterator();
+    }
+
+    public function getPersonsId(): array
+    {
+        $ids = [];
+
+        foreach ($this->getIterator() as $item) {
+            $ids[] = $item->getPersonId();
+        }
+
+        return $ids;
     }
 }
