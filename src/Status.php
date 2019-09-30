@@ -12,6 +12,9 @@ class Status extends Enum
     public const CANCELED = 2;
 
     /** @var int */
+    public const CLOSED = 8;
+
+    /** @var int */
     public const CONTEST = 3;
 
     /** @var int */
