@@ -1,0 +1,43 @@
+{
+    "name": "ciebit/bidding",
+    "description": "Módulo de Licitações",
+    "keywords": [
+        "bidding",
+        "licitações",
+        "contratos"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/ciebit/bidding/issues",
+        "source": "https://github.com/ciebit/bidding"
+    },
+    "authors": [
+        {
+            "name": "Johnny Saymon",
+            "email": "saymon@ciebit.com",
+            "homepage": "https://saymon.ciebit.com",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Ciebit\\Bidding\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ciebit\\Bidding\\Tests\\": "tests/classes"
+        }
+    },
+    "require": {
+        "php": "^7.1",
+        "myclabs/php-enum": "^1.6.2",
+        "ciebit/sql-helper": "^1.0.0",
+        "bissolli/validador-cpf-cnpj": "^1.2"
+    },
+    "require-dev": {
+        "php": "^7.2",
+        "phpunit/phpunit": "^8.0"
+    }
+}
