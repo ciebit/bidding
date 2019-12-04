@@ -59,8 +59,8 @@ class Sql implements Database
     private function build(array $data): Organ
     {
         return new Organ(
-            $data[self::COLUMN_NAME],
-            $data[self::COLUMN_ID]
+            (string) $data[self::COLUMN_NAME],
+            (string) $data[self::COLUMN_ID]
         );
     }
 
@@ -85,6 +85,11 @@ class Sql implements Database
             {$this->sqlHelper->generateSqlLimit()}"
         );
 
+        if ($statement === false) {
+            throw new Exception('bidding.organs.storages.database.sql.sintaxe_error', 3);
+        }
+
+        /** @var \PDOStatement $statement */
         $this->sqlHelper->bind($statement);
 
         if ($statement->execute() === false) {

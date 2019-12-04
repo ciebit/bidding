@@ -73,12 +73,12 @@ class Sql implements Database
     private function build(array $data): Publication
     {
         return new Publication(
-            $data[self::COLUMN_NAME],
-            $data[self::COLUMN_DESCRIPTION],
+            (string) $data[self::COLUMN_NAME],
+            (string) $data[self::COLUMN_DESCRIPTION],
             new DateTime($data[self::COLUMN_DATE]),
-            $data[self::COLUMN_BIDDING_ID],
-            $data[self::COLUMN_FILE_ID],
-            $data[self::COLUMN_ID]
+            (string) $data[self::COLUMN_BIDDING_ID],
+            (string) $data[self::COLUMN_FILE_ID],
+            (string) $data[self::COLUMN_ID]
         );
     }
 
@@ -107,6 +107,11 @@ class Sql implements Database
             {$this->sqlHelper->generateSqlLimit()}"
         );
 
+        if ($statement === false) {
+            throw new Exception('bidding.publications.storages.database.sql.sintaxe_error', 3);
+        }
+
+        /** @var \PDOStatement $statement */
         $this->sqlHelper->bind($statement);
 
         if ($statement->execute() === false) {

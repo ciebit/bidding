@@ -80,12 +80,12 @@ class Sql implements Database
     private function build(array $data): Committee
     {
         return new Committee(
-            $data[self::FIELD_NAME],
+            (string) $data[self::FIELD_NAME],
             new DateTime($data[self::FIELD_DATE_CREATION]),
-            $data[self::FIELD_EXTERNAL_ID],
-            $data[self::FIELD_MANAGER_ID],
-            explode(',', $data[self::FIELD_MEMBERS_ID]),
-            $data[self::FIELD_ID]
+            (string) $data[self::FIELD_EXTERNAL_ID],
+            (string) $data[self::FIELD_MANAGER_ID],
+            explode(',', $data[self::FIELD_MEMBERS_ID]) ?: [],
+            (string) $data[self::FIELD_ID]
         );
     }
 
@@ -113,6 +113,11 @@ class Sql implements Database
             )
         );
 
+        if ($statement === false) {
+            throw new Exception('bidding.committees.storages.database.sql.sintaxe_error', 3);
+        }
+
+        /** @var \PDOStatement $statement */
         $this->sqlHelper->bind($statement);
 
         if ($statement->execute() === false) {
