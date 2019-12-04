@@ -9,7 +9,7 @@ class Modality extends Enum
     public const CONTEST = 1;
 
     /** @var int */
-    public const ELETRONIC_TRADING = 2;
+    public const ELECTRONIC_TRADING = 2;
 
     /** @var int */
     public const FACE_TRADING = 3;
@@ -22,4 +22,11 @@ class Modality extends Enum
 
     /** @var int */
     public const PUBLIC_COMPETITION = 6;
+
+    /**
+     * Compatible
+     */
+
+    /** @var int */
+    public const ELETRONIC_TRADING = Modality::ELECTRONIC_TRADING;
 }

@@ -81,19 +81,19 @@ class Sql implements Database
     private function buildLegal(array $data): Legal
     { 
         return new Legal(
-            $data[self::FIELD_NAME],
+            (string) $data[self::FIELD_NAME],
             new Cnpj($data[self::FIELD_DOCUMENT]),
-            $data[self::FIELD_ID]
+            (string) $data[self::FIELD_ID]
         );
     }
 
     private function buildNatural(array $data): Natural
     { 
         return new Natural(
-            $data[self::FIELD_NAME],
+            (string) $data[self::FIELD_NAME],
             new Cpf($data[self::FIELD_DOCUMENT]),
-            $data[self::FIELD_OFFICE],
-            $data[self::FIELD_ID]
+            (string) $data[self::FIELD_OFFICE],
+            (string) $data[self::FIELD_ID]
         );
     }
 
@@ -121,6 +121,11 @@ class Sql implements Database
             {$this->sqlHelper->generateSqlLimit()}"
         );
 
+        if ($statement === false) {
+            throw new Exception('person.storages.database.sql.sintaxe_error', 3);
+        }
+
+        /** @var \PDOStatement $statement */
         $this->sqlHelper->bind($statement);
 
         if ($statement->execute() === false) {

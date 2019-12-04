@@ -107,7 +107,7 @@ class Sql implements Database
     private function build(array $data): Contract
     {
         $contract = new Contract(
-            $data[self::FIELD_BIDDING_ID],
+            (string) $data[self::FIELD_BIDDING_ID],
             new Year((int) $data[self::FIELD_YEAR_OF_EXERCISE]),
             (string) $data[self::FIELD_NUMBER],
             new DateTime($data[self::FIELD_DATE]),
@@ -115,9 +115,9 @@ class Sql implements Database
             new DateTime($data[self::FIELD_FINAL_DATE]),
             (float) $data[self::FIELD_GLOBAL_PRICE],
             (string) $data[self::FIELD_OBJECT_DESCRIPTION],
-            $data[self::FIELD_ORGAN_ID],
-            $data[self::FIELD_PERSON_ID],
-            $data[self::FIELD_ID]
+            (string) $data[self::FIELD_ORGAN_ID],
+            (string) $data[self::FIELD_PERSON_ID],
+            (string) $data[self::FIELD_ID]
         );
         $contract->addFileId(...explode(',', $data[self::FIELD_FILES_ID]));
 
@@ -148,6 +148,11 @@ class Sql implements Database
             )
         );
 
+        if ($statement === false) {
+            throw new Exception('bidding.contract.storages.database.sql.sintaxe_error', 3);
+        }
+
+        /** @var \PDOStatement $statement */
         $this->sqlHelper->bind($statement);
 
         if ($statement->execute() === false) {

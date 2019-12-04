@@ -186,13 +186,13 @@ class Sql implements Database
     private function build(array $data): Bidding
     {
         $place = new Place(
-            $data[self::COLUMN_OPENING_PLACE_NAME],
-            $data[self::COLUMN_OPENING_PLACE_ADDRESS],
-            $data[self::COLUMN_OPENING_PLACE_NUMBER],
-            $data[self::COLUMN_OPENING_PLACE_NEIGHBORHOOD],
-            $data[self::COLUMN_OPENING_PLACE_COMPLEMENT],
-            $data[self::COLUMN_OPENING_PLACE_CITY],
-            $data[self::COLUMN_OPENING_PLACE_STATE],
+            (string) $data[self::COLUMN_OPENING_PLACE_NAME],
+            (string) $data[self::COLUMN_OPENING_PLACE_ADDRESS],
+            (string) $data[self::COLUMN_OPENING_PLACE_NUMBER],
+            (string) $data[self::COLUMN_OPENING_PLACE_NEIGHBORHOOD],
+            (string) $data[self::COLUMN_OPENING_PLACE_COMPLEMENT],
+            (string) $data[self::COLUMN_OPENING_PLACE_CITY],
+            (string) $data[self::COLUMN_OPENING_PLACE_STATE],
             (int) $data[self::COLUMN_OPENING_PLACE_ZIPCODE]
         );
 
@@ -206,7 +206,7 @@ class Sql implements Database
             (float) $data[self::COLUMN_ESTIMATE_BUDGET_AMOUNT],
             (float) $data[self::COLUMN_UPPER_LIMITE_VALUE],
             (string) $data[self::COLUMN_OBJECT_DESCRIPTION],
-            explode(',', $data[self::COLUMN_ORGANS_ID]),
+            explode(',', $data[self::COLUMN_ORGANS_ID]) ?: [],
             new DateTime($data[self::COLUMN_OPENING_DATE_TIME]),
             $place,
             new DateTime($data[self::COLUMN_NOTICE_PUBLICATION_DATE]),
@@ -264,7 +264,12 @@ class Sql implements Database
                 self::COLUMN_ORGANS_ID
             )
         );
+        
+        if ($statement === false) {
+            throw new Exception('bidding.storages.database.sql.sintaxe_error', 3);
+        }
 
+        /** @var \PDOStatement $statement */
         $this->sqlHelper->bind($statement);
 
         if ($statement->execute() === false) {
