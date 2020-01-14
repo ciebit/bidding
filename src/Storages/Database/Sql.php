@@ -79,6 +79,9 @@ class Sql implements Database
     private const COLUMN_PERSON_ORDERED_ID = 'person_ordered_id';
 
     /** @var string */
+    private const COLUMN_REOPENING_DATE_TIME = 'reopening_date_time';
+
+    /** @var string */
     private const COLUMN_RESPONSIBLE_APPROVAL_ID = 'responsible_approval_id';
 
     /** @var string */
@@ -196,6 +199,10 @@ class Sql implements Database
             (int) $data[self::COLUMN_OPENING_PLACE_ZIPCODE]
         );
 
+        $reopeningDate = empty($data[self::COLUMN_REOPENING_DATE_TIME])
+            ? null 
+            : new DateTime($data[self::COLUMN_REOPENING_DATE_TIME]);
+
         $bidding = new Bidding(
             new Year((int) $data[self::COLUMN_YEAR_OF_EXERCISE]),
             new Modality((int) $data[self::COLUMN_MODALITY]),
@@ -210,6 +217,7 @@ class Sql implements Database
             new DateTime($data[self::COLUMN_OPENING_DATE_TIME]),
             $place,
             new DateTime($data[self::COLUMN_NOTICE_PUBLICATION_DATE]),
+            $reopeningDate,
             (string) $data[self::COLUMN_PERSON_ORDERED_ID],
             (string) $data[self::COLUMN_RESPONSIBLE_INFORMATION_ID],
             (string) $data[self::COLUMN_RESPONSIBLE_LEGAL_ADVICE_ID],
@@ -328,7 +336,8 @@ class Sql implements Database
                     %s, %s, %s, %s, %s,
                     %s, %s, %s, %s, %s, 
                     %s, %s, %s, %s, %s,
-                    %s, %s, %s, %s, %s
+                    %s, %s, %s, %s, %s,
+                    %s
                 ) VALUES (
                     :committeeId,
                     :estimateBudgetAmount,
@@ -345,6 +354,7 @@ class Sql implements Database
                     :openingPlaceNumber,
                     :openingPlaceState,
                     :openingPlaceZipcode,
+                    :reopeningDateTime,
                     :personOrderedId,
                     :responsibleApprovalId,
                     :responsibleAwardId,
@@ -371,6 +381,7 @@ class Sql implements Database
                 self::COLUMN_OPENING_PLACE_NUMBER,
                 self::COLUMN_OPENING_PLACE_STATE,
                 self::COLUMN_OPENING_PLACE_ZIPCODE,
+                self::COLUMN_REOPENING_DATE_TIME,
                 self::COLUMN_PERSON_ORDERED_ID,
                 self::COLUMN_RESPONSIBLE_APPROVAL_ID,
                 self::COLUMN_RESPONSIBLE_AWARD_ID,
@@ -383,6 +394,10 @@ class Sql implements Database
                 self::COLUMN_YEAR_OF_EXERCISE
             )
         );
+
+        $reopeningDateTime = $bidding->getReopeningDateTime() 
+            ? $bidding->getReopeningDateTime()->format('Y-m-d H:i:s')
+            : null;
 
         $statement->bindValue(':committeeId', $bidding->getCommitteeId(), PDO::PARAM_INT);
         $statement->bindValue(':estimateBudgetAmount', $bidding->getEstimatedBudgetAmount(), PDO::PARAM_STR);
@@ -399,6 +414,7 @@ class Sql implements Database
         $statement->bindValue(':openingPlaceNumber', $bidding->getOpeningPlace()->getNumber(), PDO::PARAM_STR);
         $statement->bindValue(':openingPlaceState', $bidding->getOpeningPlace()->getState(), PDO::PARAM_STR);
         $statement->bindValue(':openingPlaceZipcode', $bidding->getOpeningPlace()->getZipcode(), PDO::PARAM_INT);
+        $statement->bindValue(':reopeningDateTime', $reopeningDateTime, PDO::PARAM_STR);
         $statement->bindValue(':personOrderedId', $bidding->getPersonOrderedId(), PDO::PARAM_INT);
         $statement->bindValue(':responsibleApprovalId', $bidding->getResponsibleApprovalId(), PDO::PARAM_INT);
         $statement->bindValue(':responsibleAwardId', $bidding->getResponsibleAwardId(), PDO::PARAM_INT);

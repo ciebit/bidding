@@ -46,6 +46,9 @@ class Bidding
     /** @var string */
     private $personOrderedId;
 
+    /** @var DateTime */
+    private $reopeningDateTime;
+
     /** @var string */
     private $responsibleInformationId;
 
@@ -87,6 +90,7 @@ class Bidding
         DateTime $openingDateTime,
         Place $openingPlace,
         DateTime $noticePublicationDate,
+        DateTime $reopeningDateTime = null,
         string $personOrderedId,
         string $responsibleInformationId,
         string $responsibleLegalAdviceId,
@@ -108,6 +112,7 @@ class Bidding
         $this->openingPlace = $openingPlace;
         $this->organsId = $organsId;
         $this->personOrderedId = $personOrderedId;
+        $this->reopeningDateTime = $reopeningDateTime;
         $this->responsibleInformationId = $responsibleInformationId;
         $this->responsibleLegalAdviceId = $responsibleLegalAdviceId;
         $this->responsibleAwardId = $responsibleAwardId;
@@ -182,6 +187,11 @@ class Bidding
     public function getPersonOrderedId(): string
     {
         return $this->personOrderedId;
+    }
+
+    public function getReopeningDateTime(): ?DateTime
+    {
+        return $this->reopeningDateTime;
     }
 
     public function getResponsibleInformationId(): string

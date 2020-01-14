@@ -65,6 +65,9 @@ interface Storage
     public const FIELD_PERSON_ORDERED_ID = 'person_ordered_id';
 
     /** @var string */
+    public const FIELD_REOPENING_DATE_TIME = 'reopening_date_time';
+
+    /** @var string */
     public const FIELD_RESPONSIBLE_APPROVAL_ID = 'responsible_approval_id';
 
     /** @var string */

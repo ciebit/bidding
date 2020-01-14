@@ -82,6 +82,7 @@ class BiddingTest extends TestCase
         $this->modality = Modality::PUBLIC_COMPETITION();
         $this->noticePublicationDate = new DateTime('2019-08-20');
         $this->openingDateTime = new DateTime('2019-08-30');
+        $this->reopeningDateTime = new DateTime('2019-09-10');
         $this->openingPlace = new Place('Name', 'Address', '123', 'Neighborhood', 'Complement', 'City', 'Country', 12345000);
         $this->status = Status::OPEN();
         $this->type = Type::LOWEST_PRICE();
@@ -104,6 +105,7 @@ class BiddingTest extends TestCase
             $this->openingDateTime,
             $this->openingPlace,
             $this->noticePublicationDate,
+            $this->reopeningDateTime,
             self::PERSON_ORDERED_ID,
             self::RESPONSIBLE_INFORMATION_ID,
             self::RESPONSIBLE_LEGAL_ADVICE_ID,
@@ -123,6 +125,7 @@ class BiddingTest extends TestCase
         $this->assertEquals($this->modality, $bidding->getModality());
         $this->assertEquals($this->noticePublicationDate, $bidding->getNoticePublicationDate());
         $this->assertEquals(self::NUMBER, $bidding->getNumber());
+        $this->assertEquals($this->reopeningDateTime, $bidding->getReopeningDateTime());
         $this->assertEquals(self::RESPONSIBLE_APPROVAL_ID, $bidding->getResponsibleApprovalId());
         $this->assertEquals(self::RESPONSIBLE_AWARD_ID, $bidding->getResponsibleAwardId());
         $this->assertEquals(self::RESPONSIBLE_INFORMATION_ID, $bidding->getResponsibleInformationId());
