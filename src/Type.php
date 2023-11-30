@@ -12,5 +12,11 @@ class Type extends Enum
     public const LOWEST_PRICE = 2;
 
     /** @var int */
+    public const OPEN = 4;
+
+    /** @var int */
+    public const OPEN_AND_CLOSED = 5;
+
+    /** @var int */
     public const TECHNIQUE_AND_PRICE = 3;
 }
