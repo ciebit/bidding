@@ -9,6 +9,9 @@ class Modality extends Enum
     public const CONTEST = 1;
 
     /** @var int */
+    public const ELECTRONIC_COMPETITION = 7;
+
+    /** @var int */
     public const ELECTRONIC_TRADING = 2;
 
     /** @var int */
