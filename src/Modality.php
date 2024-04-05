@@ -21,6 +21,9 @@ class Modality extends Enum
     public const INVITATION_LETTER = 4;
 
     /** @var int */
+    public const PRE_QUALIFICATION = 8;
+
+    /** @var int */
     public const PRICE_MAKING = 5;
 
     /** @var int */
